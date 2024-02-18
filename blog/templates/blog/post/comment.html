@@ -1,0 +1,19 @@
+{% extends "blog/base.html" %}
+
+{% block title %} Add comment {% endblock title %}
+
+
+{% block content %}
+
+
+
+    {% if comment %}
+
+    <h2 class="text-center text-light">Ваш комментарий был добавлен</h2>
+    <p class="text-justify product_text text-light text-center"><a href="{{post.get_absolute_url}}" class="previous">&laquo; Назад</a></p>
+     {% else %}
+        {% include "blog/post/includes/comment_form.html" %}
+    {% endif %}
+
+
+{% endblock content %}

@@ -1,0 +1,51 @@
+{% extends 'blog/base.html' %}
+
+{% load static %}
+
+{% block title %}
+	Home
+{% endblock %} 
+
+{% block content %}
+	<div class="container-fluid">
+		<div class="row">
+			
+		</div>
+	</div>
+
+	<div class="py-4">
+		<div class="container">
+			<div class="row">
+				<div class="col-10 mx-auto my-2 text-center">
+					<h1 class="text-capitalize font-weight-bold">
+						
+					</h1>
+				</div>
+			</div>
+		</div>
+		
+	</div>
+
+	<div class="container">
+		<div class="row">
+			{% for post in posts %}
+				<div class="col-9 mx-auto col-md-6 col-lg-3">
+					<div class="card mb-5">
+                        {% for images in post.images.all|slice:1 %}
+						<div class="p-4">
+							<a href="{{post.get_absolute_url}}"><img class="card-img-top" src="{{images.imageq.url}}" alt=""></a>
+						</div>
+                        {% endfor %}
+						
+						<div class="card-footer d-flex justify-content-between" style="background: transparent; border-color: transparent;">
+							<p class="font-weight-bold mb-0 text-center">{{post.title}}</p>
+                    		
+						</div>
+					</div>
+				</div>
+            {% endfor %}
+		</div>
+	</div>
+
+	
+{% endblock %}

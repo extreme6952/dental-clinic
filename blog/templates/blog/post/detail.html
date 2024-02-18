@@ -1,0 +1,64 @@
+{% extends 'blog/base.html' %}
+
+
+{% block title %} {{details.title}} {% endblock %}
+  
+
+
+{% block content %}
+<br>
+<br>
+<br>
+<br>
+<div id="carouselInd" class="carousel slide" data-ride="carousel">
+  <div class="carousel-inner">
+      {% for image in images %}
+      
+      <div class="carousel-item {% if forloop.counter0 == 0  %}active{% endif %}">
+        <div class="col-10 mx-auto col-md-6 my-3">
+        <img src="{{image.imageq.url}}" class="bd-placeholder-img card-img-top">
+      </div>
+      </div>
+      {% endfor %}
+
+  </div>
+  <a class="carousel-control-prev" href="#carouselInd" role="button" data-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="sr-only">Предыдущий</span>
+  </a>
+  <a class="carousel-control-next" href="#carouselInd" role="button" data-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="sr-only">Следующий</span>
+  </a>
+</div>
+
+  
+
+
+  <div class="col-10 mx-auto col-md-6 my-3">
+    <div>
+      <h1 class="product_title text-center">{{details.title}}</h1>
+      <br>
+      <br>
+      
+      <p class="text-justify product_text text-center">{{details.body}}</p>
+    </div>
+  </div>
+  {% with comments.count as total_comments %}
+  <h2>
+    {{ total_comments }} comment{{ total_comments|pluralize }}
+  </h2>
+{% endwith %}
+{% for comment in comments %}
+  <div class="comment">
+    <p class="info">
+      Comment {{ forloop.counter }} by {{ comment.name }}
+      {{ comment.created }}
+    </p>
+    {{ comment.body|linebreaks }}
+  </div>
+{% empty %}
+  <p>There are no comments yet.</p>
+{% endfor %}
+{% include "blog/post/includes/comment_form.html" %}
+{% endblock %}
