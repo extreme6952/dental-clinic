@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Post,Comment,Gallery
+from .models import Category, Post,Comment,Gallery
 
 
 class GalleryInline(admin.TabularInline):
@@ -25,3 +25,12 @@ class CommentAdmin(admin.ModelAdmin):
     list_display = ['name', 'email', 'post', 'created', 'active']
     list_filter = ['active', 'created', 'updated']
     search_fields = ['name', 'email', 'body']
+
+@admin.register(Category)
+class CategoryAdmin(admin.ModelAdmin):
+
+    list_display = ['name','slug']
+
+    list_filter = ['created','updated','name']
+
+    prepopulated_fields = {'slug':('name',)}

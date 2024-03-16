@@ -10,7 +10,7 @@ from django.views.generic import ListView
 
 from taggit.models import Tag
 
-from .models import Post,Comment,Gallery
+from .models import Category, Post,Comment,Gallery
 
 from .forms import EmailShare,CommentForm,SearchForms
 
@@ -18,24 +18,32 @@ from django.db.models import Count
 
 
 
-def post_list(request,tag_slug=None):
+def post_list(request,category_slug=None):
 
     post_l = Post.published.all()
 
-    tag = None
+    category = None
 
-    if tag_slug:
+    categories = Category.objects.all()
+
+
+    if category_slug:
+
+        category = get_object_or_404(Category,
+                                     slug=category_slug)
         
-        tag = get_object_or_404(Tag,
-                                slug=tag_slug)
-        
-        post_l = post_l.filter(tags__in=[tag])
+        post_l = post_l.filter(category=category)
+    
+
+
 
     return render(request,'blog/post/index.html',{'posts':post_l,
-                                                  'tag':tag})
+                                                  'category':category,
+                                                  'categories':categories})
 
 
-def post_detail(request,year,month,day,postd):
+def post_detail(request,year,month,day,postd,
+                category_slug=None):
 
     post = get_object_or_404(Post,
                              status=Post.Status.PUBLISHED,
@@ -44,25 +52,49 @@ def post_detail(request,year,month,day,postd):
                              publish__month=month,
                              publish__day=day)
     
+    category = None
+
+    categories = Category.objects.all()
+
+    if category_slug:
+
+        category = get_object_or_404(Category,
+                                     slug=category_slug)
+        
+        post = post.filter(category=category)
+    
     images = Gallery.objects.filter(post=post)
     
     form = CommentForm()
 
     comments = post.comments.filter(active=True)
 
-    post_tags_ids = post.tags.values_list('id',flat=True)
-
-    similar_post = Post.published.filter(tags__in=post_tags_ids).exclude(id=post.id)
-
-    similar_post = similar_post.annotate(same_tags=Count('tags'))\
-    .order_by('-same_tags','-publish')[:4]
-
-
 
     return render(request,'blog/post/detail.html',{'details':post,
                                                    'form_comment':form,
                                                    'comments':comments,
-                                                   'images':images,})
+                                                   'images':images,
+                                                   'categories':categories,
+                                                   'category':category})
+
+# def category_list(request,category_slug=None):
+
+#     category = None
+
+#     categories = Category.objects.all()
+
+#     if category_slug:
+
+#         categories = get_object_or_404(Category,
+#                                      slug=category_slug)
+        
+#         post = Post.published.filter(category=category)
+
+#     return render(request,
+#                   'blog/post/includes/navbar.html',
+#                   {'post_cat':post,
+#                    'categories':categories,
+#                    'category':category})
 
 
 
