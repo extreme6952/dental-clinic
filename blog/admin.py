@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Category, Post,Comment,Gallery
+from .models import Category, Post,Comment,Gallery, Profile
 
 
 class GalleryInline(admin.TabularInline):
@@ -9,11 +9,10 @@ class GalleryInline(admin.TabularInline):
 
 @admin.register(Post)
 class PostAdmin(admin.ModelAdmin):
-    list_display = ['title', 'slug', 'author', 'publish', 'status']
-    list_filter = ['status', 'created', 'publish', 'author']
+    list_display = ['title', 'slug',  'publish', 'status']
+    list_filter = ['status', 'created', 'publish',]
     search_fields = ['title', 'body']
     prepopulated_fields = {'slug': ('title',)}
-    raw_id_fields = ['author']
     date_hierarchy = 'publish'
     ordering = ['status', 'publish']
 
@@ -34,3 +33,10 @@ class CategoryAdmin(admin.ModelAdmin):
     list_filter = ['created','updated','name']
 
     prepopulated_fields = {'slug':('name',)}
+
+@admin.register(Profile)
+class ProfileAdmin(admin.ModelAdmin):
+
+    list_display = ['user','phone_number','date_of_birthy']
+
+    raw_id_fields = ['user']

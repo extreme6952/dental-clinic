@@ -10,11 +10,13 @@ from django.views.generic import ListView
 
 from taggit.models import Tag
 
-from .models import Category, Post,Comment,Gallery
+from .models import Category, Post,Comment,Gallery, Profile
 
-from .forms import EmailShare,CommentForm,SearchForms
+from .forms import EmailShare,CommentForm,SearchForms, UserRegistrationForm
 
 from django.db.models import Count
+
+from django.contrib.auth.decorators import login_required
 
 
 
@@ -28,7 +30,7 @@ def post_list(request,category_slug=None):
 
 
     if category_slug:
-
+   
         category = get_object_or_404(Category,
                                      slug=category_slug)
         
@@ -42,8 +44,7 @@ def post_list(request,category_slug=None):
                                                   'categories':categories})
 
 
-def post_detail(request,year,month,day,postd,
-                category_slug=None):
+def post_detail(request,year,month,day,postd,category_slug=None):
 
     post = get_object_or_404(Post,
                              status=Post.Status.PUBLISHED,
@@ -77,24 +78,26 @@ def post_detail(request,year,month,day,postd,
                                                    'categories':categories,
                                                    'category':category})
 
-# def category_list(request,category_slug=None):
+def category_list(request,category_slug=None):
 
-#     category = None
+    post = Post.published.all()
 
-#     categories = Category.objects.all()
+    category = None
 
-#     if category_slug:
+    categories = Category.objects.all()
 
-#         categories = get_object_or_404(Category,
-#                                      slug=category_slug)
+    if category_slug:
+
+        categories = get_object_or_404(Category,
+                                     slug=category_slug)
         
-#         post = Post.published.filter(category=category)
+        post = post.filter(category=category)
 
-#     return render(request,
-#                   'blog/post/includes/navbar.html',
-#                   {'post_cat':post,
-#                    'categories':categories,
-#                    'category':category})
+    return render(request,
+                  'blog/post/includes/navbar.html',
+                  {'post_cat':post,
+                   'categories':categories,
+                   'category':category})
 
 
 
@@ -145,3 +148,58 @@ def post_search(request):
                   {'form_search':form,
                    'results':results,
                    'query':query})
+
+@login_required
+def dashboard(request,category_slug=None):
+
+    post_l = Post.published.all()
+
+    category = None
+
+    categories = Category.objects.all()
+
+
+    if category_slug:
+   
+        category = get_object_or_404(Category,
+                                     slug=category_slug)
+        
+        post_l = post_l.filter(category=category)
+
+    return render(request,
+                  'account/dashboard.html',
+                  {'dashboard':'section',
+                   'category':category,
+                   'categories':categories,
+                    'post_l':post_l})
+
+def user_registration(request):
+
+    if request.method=='POST':
+        
+        user_form = UserRegistrationForm(request.POST)
+
+        if user_form.is_valid():
+
+            new_user = user_form.save(commit=False)
+
+            new_user.set_password(user_form.cleaned_data['password'])
+    
+            new_user.save()
+
+            Profile.objects.create(user=new_user)
+
+            return render(request,
+                          'account/user_registration_done.html',
+                          {'new_user':new_user})
+
+    else:
+        user_form = UserRegistrationForm()
+
+    return render(request,
+                  'user_registration_form.html',
+                  {'user_form':user_form})
+
+
+
+
