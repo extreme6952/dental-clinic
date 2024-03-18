@@ -44,7 +44,7 @@ class UserRegistrationForm(forms.ModelForm):
 
         fields = ['first_name','last_name','email','username']
 
-    def clean_password(self):
+    def clean_password2(self):
 
         cd = self.cleaned_data
 

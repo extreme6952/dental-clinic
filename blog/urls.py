@@ -23,5 +23,7 @@ urlpatterns = [
 
     path('dashboard/',views.dashboard,name='dashboard'),
 
+    path('register/',views.user_registration,name='register')
+
     
 ]

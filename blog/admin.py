@@ -40,3 +40,5 @@ class ProfileAdmin(admin.ModelAdmin):
     list_display = ['user','phone_number','date_of_birthy']
 
     raw_id_fields = ['user']
+
+    search_fields = ['phone_number']

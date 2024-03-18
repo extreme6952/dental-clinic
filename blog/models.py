@@ -158,4 +158,8 @@ class Profile(models.Model):
     def __str__(self):
         return self.user.last_name
     
+    def __str__(self):
+        return f"profile {self.user.username}" 
+    
+    
 

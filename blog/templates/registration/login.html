@@ -1,4 +1,4 @@
-{% extends "blog/base.html" %}
+{% extends "base.html" %}
 
 
 {% block title %} Login {% endblock title %}
@@ -31,4 +31,5 @@
     </a>
   </p>
 
+<a href="{% url "blog:register" %}" > Register </a>
 {% endblock content %}

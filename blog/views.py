@@ -19,7 +19,7 @@ from django.db.models import Count
 from django.contrib.auth.decorators import login_required
 
 
-
+@login_required
 def post_list(request,category_slug=None):
 
     post_l = Post.published.all()
@@ -43,7 +43,7 @@ def post_list(request,category_slug=None):
                                                   'category':category,
                                                   'categories':categories})
 
-
+@login_required
 def post_detail(request,year,month,day,postd,category_slug=None):
 
     post = get_object_or_404(Post,
@@ -197,7 +197,7 @@ def user_registration(request):
         user_form = UserRegistrationForm()
 
     return render(request,
-                  'user_registration_form.html',
+                  'account/user_registration_form.html',
                   {'user_form':user_form})
 
 
