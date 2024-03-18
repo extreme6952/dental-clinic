@@ -42,7 +42,7 @@ class UserRegistrationForm(forms.ModelForm):
 
         model = User
 
-        fields = ['first_name','last_name','email','username']
+        fields = ['first_name','last_name','email','username',]
 
     def clean_password2(self):
 

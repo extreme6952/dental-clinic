@@ -18,7 +18,7 @@
           </a>
           <div class="dropdown-menu bg-dark " aria-labelledby="navbarDropdown">
             {% for category in categories %}
-            <a class="dropdown-item text-light" href="{{category.get_absolute_url}}">{{category.name}}</a>
+            <a class="dropdown-item text-light bg-dark" href="{{category.get_absolute_url}}">{{category.name}}</a>
             {% endfor %}
           </div>
         </li>
