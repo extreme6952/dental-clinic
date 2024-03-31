@@ -26,10 +26,12 @@
           <a class="nav-link active" href="{% url "logout" %}" tabindex="-1" aria-disabled="true">Disabled</a>
         </li>
       </ul>
-      <form class="form-inline my-2 my-lg-0">
-        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-      </form>
+       <form method="get" action="{% url "blog:search" %}" class="form-inline my-2 my-lg-0">
+        {% include 'blog/post/includes/search_form.html' %}
+        
+       </form>
+
+      {% comment %} {% include 'blog/post/includes/search_form.html' %} {% endcomment %}
     </div>
   </nav>
- 
+  

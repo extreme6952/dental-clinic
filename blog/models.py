@@ -1,5 +1,3 @@
-import numbers
-from unicodedata import category
 from django.db import models
 
 from django.utils import timezone
@@ -9,6 +7,7 @@ from django.urls import reverse
 from django.contrib.auth.models import User
 
 from taggit.managers import TaggableManager
+
 
 
 
@@ -148,18 +147,17 @@ class Profile(models.Model):
     user = models.OneToOneField(User,
                                 on_delete=models.CASCADE,
                                 related_name='profile_users')
+    
+    date_of_birthy = models.DateTimeField(null=True,
+                                          blank=True)
+    
+    photo = models.ImageField(upload_to='user/%Y/%m/%d')
 
-    phone_number = models.IntegerField(null=True)
-
-    date_of_birthy = models.DateTimeField(null=True)
-
-    image = models.ImageField(upload_to='user/%M/%y/%d')
 
     def __str__(self):
         return self.user.last_name
     
-    def __str__(self):
-        return f"profile {self.user.username}" 
-    
+       
+
     
 

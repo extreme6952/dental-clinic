@@ -4,6 +4,8 @@ from . import views
 
 from django.urls import include
 
+from django.contrib.auth.views import LoginView,PasswordResetView
+
 
 app_name = 'blog'
 
@@ -23,7 +25,13 @@ urlpatterns = [
 
     path('dashboard/',views.dashboard,name='dashboard'),
 
-    path('register/',views.user_registration,name='register')
+    path('register/',views.user_registration,name='register'),
+
+    path('edit/',views.user_edit_account,name='edit_user'),
+
+    path('category-list/',views.category_list,name='category_list'),
+
+    path('search/',views.post_search,name='search'),
 
     
 ]

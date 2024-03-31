@@ -16,12 +16,17 @@
 
 {% endif %}
 
-<form method="post">
+<form method="post" class="form-group">
 
-    {{form.as_p}}
-    <input type="hidden" name="next" value="{{ next }}" />
-    <input type="submit">
-    {% csrf_token %}
+  <div class="row align-items-center mt-4">
+    <div class="col">
+      {{form.as_p}}
+    </div>
+    
+  </div>
+  
+  <input type="submit" value="Log-in">
+  {% csrf_token %}
 
 </form>
 

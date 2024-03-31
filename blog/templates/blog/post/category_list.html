@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+
+
+{% block title %} Category {% endblock title %}
+
+
+{% block content %}
+
+    {% for categories in categories %}
+    
+        <a href="{{categories.get_absolute_url}}">{{categories.name}}</a>
+    
+    {% endfor %}
+
+{% endblock content %}
